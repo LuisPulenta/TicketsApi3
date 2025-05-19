@@ -493,5 +493,53 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             }
             return Ok(list);
         }
+
+        //-------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("GetMailsAdmin/{CompanyId}")]
+        public async Task<string> GetMailsAdmin(int CompanyId)
+
+        {
+            List<User> users = await _context.Users
+                .Where(x => x.Company.Id == CompanyId && x.UserType==UserType.Admin && x.Active)
+                .ToListAsync();
+
+            string emailsAdmins = "";
+            foreach (User user in users)
+            {
+                emailsAdmins=emailsAdmins + user.Email+",";
+            }
+            
+            if (!string.IsNullOrEmpty(emailsAdmins))
+            {
+                emailsAdmins = emailsAdmins.Substring(0, emailsAdmins.Length - 1);
+            }
+
+            return emailsAdmins;
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("GetMailsAdminKP")]
+        public async Task<string> GetMailsAdminKP(int CompanyId)
+
+        {
+            List<User> users = await _context.Users
+                .Where(x => x.UserType == UserType.AdminKP && x.Active)
+                .ToListAsync();
+
+            string emailsAdmins = "";
+            foreach (User user in users)
+            {
+                emailsAdmins = emailsAdmins + user.Email + ",";
+            }
+
+            if (!string.IsNullOrEmpty(emailsAdmins))
+            {
+                emailsAdmins = emailsAdmins.Substring(0, emailsAdmins.Length - 1);
+            }
+
+            return emailsAdmins;
+        }
     }
 }
