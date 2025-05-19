@@ -497,7 +497,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         //-------------------------------------------------------------------------------------------------
         [HttpPost]
         [Route("GetMailsAdmin/{CompanyId}")]
-        public async Task<string> GetMailsAdmin(int CompanyId)
+        public async Task<IActionResult> GetMailsAdmin(int CompanyId)
 
         {
             List<User> users = await _context.Users
@@ -515,14 +515,17 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 emailsAdmins = emailsAdmins.Substring(0, emailsAdmins.Length - 1);
             }
 
-            return emailsAdmins;
+            EmailsResponse emailsResponse = new EmailsResponse
+            {
+                Emails = emailsAdmins
+            };
+            return Ok(emailsResponse);
         }
 
         //-------------------------------------------------------------------------------------------------
         [HttpPost]
         [Route("GetMailsAdminKP")]
-        public async Task<string> GetMailsAdminKP(int CompanyId)
-
+        public async Task<IActionResult> GetMailsAdminKP(int CompanyId)
         {
             List<User> users = await _context.Users
                 .Where(x => x.UserType == UserType.AdminKP && x.Active)
@@ -539,7 +542,11 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 emailsAdmins = emailsAdmins.Substring(0, emailsAdmins.Length - 1);
             }
 
-            return emailsAdmins;
+            EmailsResponse emailsResponse = new EmailsResponse
+            {
+                Emails = emailsAdmins
+            };
+            return Ok(emailsResponse);
         }
     }
 }
