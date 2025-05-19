@@ -244,8 +244,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             return BadRequest(ModelState);
         }
 
-        //-------------------------------------------------------------------------------------------------
-        [HttpPost]
+            //-------------------------------------------------------------------------------------------------
+            [HttpPost]
         [Route("RecoverPassword")]
         public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
         {
@@ -262,7 +262,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "Tickets - Reseteo de contraseña", $"<h1>Tickets - Reseteo de contraseña</h1>" +
+                _mailHelper.SendMail(model.Email,"", "Tickets - Reseteo de contraseña", $"<h1>Tickets - Reseteo de contraseña</h1>" +
                     $"Para establecer una nueva contraseña haga clic en el siguiente enlace:</br></br>" +
                     $"<a href = \"{link}\">Cambio de Contraseña</a>");
                 return Ok("Las instrucciones para el cambio de contraseña han sido enviadas a su email.");
@@ -430,7 +430,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(user.Email, "Tickets - Confirmación de cuenta", $"<h1>Tickets - Confirmación de cuenta</h1>" +
+            _mailHelper.SendMail(user.Email, "", "Tickets - Confirmación de cuenta", $"<h1>Tickets - Confirmación de cuenta</h1>" +
                 $"Para habilitar el usuario, " +
                 $"por favor hacer clic en el siguiente enlace: </br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
 

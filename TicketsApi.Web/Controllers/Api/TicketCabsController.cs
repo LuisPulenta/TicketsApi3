@@ -14,8 +14,7 @@ using TicketsApi.Web.Models;
 using TicketsApi.Web.Models.Request;
 using System.IO;
 using TicketsApi.Common.Helpers;
-using static System.Net.Mime.MediaTypeNames;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using TicketsApi.Web.Helpers;
 using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace TicketsApi.Web.Controllers.Api
@@ -27,11 +26,13 @@ namespace TicketsApi.Web.Controllers.Api
     {
         private readonly DataContext _context;
         private readonly IFilesHelper _filesHelper;
+        private readonly IMailHelper _mailHelper;
 
-        public TicketCabsController(DataContext context, IFilesHelper filesHelper)
+        public TicketCabsController(DataContext context, IFilesHelper filesHelper, IMailHelper mailHelper)
         {
             _context = context;
             _filesHelper = filesHelper;
+            _mailHelper = mailHelper;
         }
 
         //-----------------------------------------------------------------------------------
@@ -893,6 +894,14 @@ namespace TicketsApi.Web.Controllers.Api
                 list.Add(ticketCabViewModel);
             }
             return Ok(list);
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("SendEmail")]
+        public void SendEmail(SendEmailRequest request)
+        {
+            _mailHelper.SendMail(request.to, request.cc, request.subject, request.body);    
         }
     }
 }

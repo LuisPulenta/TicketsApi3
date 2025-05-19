@@ -4,6 +4,6 @@ namespace TicketsApi.Web.Helpers
 {
     public interface IMailHelper
     {
-        Response SendMail(string to, string subject, string body);
+        Response SendMail(string to, string cc, string subject, string body);
     }
 }

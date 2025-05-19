@@ -1,7 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MimeKit;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TicketsApi.Common.Models;
 
 namespace TicketsApi.Web.Helpers
@@ -15,7 +18,7 @@ namespace TicketsApi.Web.Helpers
             _configuration = configuration;
         }
 
-        public Response SendMail(string to, string subject, string body)
+        public Response SendMail(string to, string cc, string subject, string body)
         {
             try
             {
@@ -24,9 +27,21 @@ namespace TicketsApi.Web.Helpers
                 string port = _configuration["Mail:Port"];
                 string password = _configuration["Mail:Password"];
 
+                List<string> listaCC = cc.Split(',').ToList();
+                List<string> listaTO = to.Split(',').ToList();
+
                 MimeMessage message = new MimeMessage();
                 message.From.Add(new MailboxAddress(from));
-                message.To.Add(new MailboxAddress(to));
+                foreach (var email in listaTO)
+                {
+                    message.To.Add(new MailboxAddress(email));
+                }
+
+                foreach (var email in listaCC)
+                {
+                    message.Cc.Add(new MailboxAddress(email));
+                }
+
                 message.Subject = subject;
 
                 BodyBuilder bodyBuilder = new BodyBuilder
