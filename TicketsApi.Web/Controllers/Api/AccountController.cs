@@ -404,7 +404,6 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         [HttpGet("{id}")]
         public async Task<ActionResult<UserViewModel>> GetUser(string id)
         {
-
             User user = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == id);
 
