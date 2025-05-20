@@ -401,23 +401,19 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         }
 
         //-------------------------------------------------------------------------------------------------
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetUserById/{id}")]
-        public async Task<IActionResult> GetUserById(string id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
 
-            var user = await _context.Users.FirstOrDefaultAsync(o => o.Id == id);
+            User user = await _context.Users
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (user == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            return Ok(user);
+
+            return user;            
         }
 
         //-------------------------------------------------------------------------------------------------
