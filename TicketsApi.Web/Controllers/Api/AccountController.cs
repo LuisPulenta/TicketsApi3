@@ -402,7 +402,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
 
         //-------------------------------------------------------------------------------------------------
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
+        public async Task<ActionResult<UserViewModel>> GetUser(string id)
         {
 
             User user = await _context.Users
@@ -413,7 +413,29 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 return NotFound();
             }
 
-            return user;            
+            UserViewModel userViewModel = new UserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserTypeId = (int)user.UserType,
+                UserTypeName = user.UserType.ToString(),
+                Email = user.Email,
+                EmailConfirm = user.EmailConfirmed,
+                PhoneNumber = user.PhoneNumber,
+                CompanyId = user.Company != null ? user.Company.Id : 1,
+                CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
+                CreateDate = user.CreateDate,
+                CreateUserId = user.CreateUserId,
+                CreateUserName = user.CreateUserName,
+                LastChangeDate = user.LastChangeDate,
+                LastChangeUserId = user.LastChangeUserId,
+                LastChangeUserName = user.LastChangeUserName,
+                Active = user.Active,
+                Tickets = null
+            };
+
+            return userViewModel;            
         }
 
         //-------------------------------------------------------------------------------------------------
