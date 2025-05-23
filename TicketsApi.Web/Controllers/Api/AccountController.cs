@@ -467,7 +467,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(user.Email, "", "Tickets - Confirmación de cuenta", $"<h1>Tickets - Confirmación de cuenta</h1>" +
+            _mailHelper.SendMailSinCc(user.Email, "Tickets - Confirmación de cuenta", $"<h1>Tickets - Confirmación de cuenta</h1>" +
                 $"Para habilitar el usuario, " +
                 $"por favor hacer clic en el siguiente enlace: </br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
 
