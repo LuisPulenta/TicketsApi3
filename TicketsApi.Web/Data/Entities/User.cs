@@ -54,6 +54,9 @@ namespace TicketsApi.Web.Data.Entities
         [Display(Name = "Activo")]
         public bool Active { get; set; }
 
+        [Display(Name = "Resolutor")]
+        public int? IsResolver { get; set; }
+
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
 

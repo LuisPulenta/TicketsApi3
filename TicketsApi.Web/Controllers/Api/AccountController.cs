@@ -72,6 +72,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                         LastChangeUserId = user2.LastChangeUserId,
                         LastChangeUserName = user2.LastChangeUserName,
                         Active = user2.Active,
+                        IsResolver=user2.IsResolver
                     };
 
                     if (result.Succeeded)
@@ -144,6 +145,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 CreateDate = ahora,
                 LastChangeDate= ahora,
                 Active=true,
+                IsResolver=0,
             };
 
             await _userHelper.AddUserAsync(user, request.Password);
@@ -169,6 +171,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 LastChangeUserId = user.LastChangeUserId,
                 LastChangeUserName = user.LastChangeUserName,
                 Active = user.Active,
+                IsResolver=user.IsResolver,
             };
 
             return Ok(user2);
@@ -204,6 +207,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             user.PhoneNumber = request.PhoneNumber;
             user.Company = company;
             user.Active= request.Active;
+            user.IsResolver = request.IsResolver;
             user.LastChangeUserId= lastChangeUser.Id;
             user.LastChangeUserName = lastChangeUser.FullName;
             user.LastChangeDate = ahora;
@@ -304,6 +308,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserId = user.LastChangeUserId,
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
+                    IsResolver=user.IsResolver,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
@@ -360,6 +365,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserId = user.LastChangeUserId,
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
+                    IsResolver = user.IsResolver,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
@@ -431,6 +437,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 LastChangeUserId = user.LastChangeUserId,
                 LastChangeUserName = user.LastChangeUserName,
                 Active = user.Active,
+                IsResolver = user.IsResolver,
                 Tickets = null
             };
 
@@ -523,6 +530,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserId = user.LastChangeUserId,
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
+                    IsResolver = user.IsResolver,
                     Tickets = {},
                 };
 

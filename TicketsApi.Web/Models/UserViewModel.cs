@@ -23,6 +23,7 @@ namespace TicketsApi.Web.Models
         public string? LastChangeUserId { get; set; }
         public string? LastChangeUserName { get; set; }
         public bool Active { get; set; }
+        public int? IsResolver { get; set; }
         public ICollection<TicketCabViewModel> Tickets { get; set; }
         public string FullName => $"{FirstName} {LastName}";
     }
