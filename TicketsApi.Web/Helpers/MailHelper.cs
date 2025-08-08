@@ -1,6 +1,5 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -32,15 +31,15 @@ namespace TicketsApi.Web.Helpers
                 List<string> listaTO = to.Split(',').ToList();
 
                 MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress(from));
+                message.From.Add(MailboxAddress.Parse(from));
                 foreach (var email in listaTO)
                 {
-                    message.To.Add(new MailboxAddress(email));
+                    message.To.Add(MailboxAddress.Parse(email));
                 }
 
                 foreach (var email in listaCC)
                 {
-                    message.Cc.Add(new MailboxAddress(email));
+                    message.Cc.Add(MailboxAddress.Parse(email));
                 }
 
                 message.Subject = subject;
@@ -87,10 +86,10 @@ namespace TicketsApi.Web.Helpers
                 List<string> listaTO = to.Split(',').ToList();
 
                 MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress(from));
+                message.From.Add(MailboxAddress.Parse(from));
                 foreach (var email in listaTO)
                 {
-                    message.To.Add(new MailboxAddress(email));
+                    message.To.Add(MailboxAddress.Parse(email));
                 }
 
                 message.Subject = subject;
