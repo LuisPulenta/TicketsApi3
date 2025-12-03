@@ -52,7 +52,7 @@ namespace TicketsApi.Web.Data.Entities
         public ICollection<User>? Users { get; set; }
 
         [Display(Name = "Sucursales")]
-        public ICollection<Branch>? Branchs { get; set; }
+        public ICollection<Branch>? Branches { get; set; }
 
         [Display(Name = "Usuarios")]
         public int UsersNumber => Users == null ? 0 : Users.Count;

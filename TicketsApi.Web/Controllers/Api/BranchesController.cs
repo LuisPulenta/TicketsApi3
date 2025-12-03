@@ -34,7 +34,9 @@ namespace TicketsApi.Web.Controllers.Api
         public async Task<ActionResult<IEnumerable<Branch>>> GetBranches(int companyId)
         {
             List<Branch> branches = await _context.Branches
-              .Include(x => x.Users)
+              .Include(x => x.Company)
+                .Include(x => x.Users)
+              .ThenInclude(x => x.Company)
               .Where(x => x.Company.Id == companyId)
               .OrderBy(x => x.Name)
               .ToListAsync();
@@ -54,6 +56,8 @@ namespace TicketsApi.Web.Controllers.Api
                     LastChangeUserId = branch.LastChangeUserId,
                     LastChangeUserName = branch.LastChangeName,
                     Active = branch.Active,
+                    CompanyId=branch.Company.Id,
+                    CompanyName = branch.Company.Name,
 
                     Users = branch.Users?.Select(user => new UserViewModel
                     {
