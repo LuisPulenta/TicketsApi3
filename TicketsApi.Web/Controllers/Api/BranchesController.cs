@@ -144,7 +144,9 @@ namespace TicketsApi.Web.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            Branch oldBranch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == branchRequest.Id);
+            Branch oldBranch = await _context.Branches
+                .Include(c=>c.Company)
+                .FirstOrDefaultAsync(o => o.Id == branchRequest.Id);
 
             DateTime ahora = DateTime.Now;
             User lastChangeUser = await _userHelper.GetUserByIdAsync(branchRequest.LastChangeUserId);
@@ -155,10 +157,28 @@ namespace TicketsApi.Web.Controllers.Api
             oldBranch!.LastChangeUserId = lastChangeUser.Id;
             oldBranch.LastChangeName = lastChangeUser.FullName;
 
+
+
             _context.Update(oldBranch);
             try
             {
                 await _context.SaveChangesAsync();
+                BranchViewModel branchViewModel = new BranchViewModel
+                {
+                    Id = oldBranch.Id,
+                    Name = oldBranch.Name,
+                    CreateDate = oldBranch.CreateDate,
+                    CreateUserId = oldBranch.CreateUserId,
+                    CreateUserName = oldBranch.CreateUserName,
+                    LastChangeDate = oldBranch.LastChangeDate,
+                    LastChangeUserId = oldBranch.LastChangeUserId,
+                    LastChangeUserName = oldBranch.LastChangeName,
+                    Active = oldBranch.Active,
+                    CompanyId = oldBranch.Company.Id,
+                    CompanyName = oldBranch.Company.Name,
+                };
+
+                return Ok(branchViewModel);
             }
             catch (DbUpdateException dbUpdateException)
             {
@@ -175,23 +195,6 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 return BadRequest(exception.Message);
             }
-
-            BranchViewModel branchViewModel = new BranchViewModel
-            {
-                Id = oldBranch.Id,
-                Name = oldBranch.Name,
-                CreateDate = oldBranch.CreateDate,
-                CreateUserId = oldBranch.CreateUserId,
-                CreateUserName = oldBranch.CreateUserName,
-                LastChangeDate = oldBranch.LastChangeDate,
-                LastChangeUserId = oldBranch.LastChangeUserId,
-                LastChangeUserName = oldBranch.LastChangeName,
-                Active = oldBranch.Active,
-                CompanyId = oldBranch.Company.Id,
-                CompanyName = oldBranch.Company.Name,
-            };
-
-            return Ok(branchViewModel);
         }
 
         //-----------------------------------------------------------------------------------
