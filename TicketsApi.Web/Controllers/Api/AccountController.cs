@@ -237,7 +237,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             user.PhoneNumber = request.PhoneNumber;
             user.Company = company;
             user.Branch = branch;
-            user.BranchId = branch!=null ? branch.Id : null;
+            user.BranchId = branch != null ? branch.Id : null;
             user.Active = request.Active;
             user.IsResolver = request.IsResolver;
             user.IsBoss = request.IsBoss;
@@ -464,6 +464,13 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 return NotFound();
             }
 
+            Branch branch = null;
+
+            if (user.BranchId != null)
+            {
+                branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == user.BranchId);
+            }
+
             UserViewModel userViewModel = new UserViewModel
             {
                 Id = user.Id,
@@ -476,8 +483,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 PhoneNumber = user.PhoneNumber,
                 CompanyId = user.Company != null ? user.Company.Id : 1,
                 CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
-                BranchId = user.Branch != null ? user.Branch.Id : null,
-                BranchName = user.Branch != null ? user.Branch.Name : null,
+                BranchId = user.BranchId,
+                BranchName = user.Branch != null ? branch.Name : null,
                 CreateDate = user.CreateDate,
                 CreateUserId = user.CreateUserId,
                 CreateUserName = user.CreateUserName,
@@ -487,6 +494,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 Active = user.Active,
                 IsResolver = user.IsResolver,
                 IsBoss = user.IsBoss,
+                BossAsign = user.BossId,
+                BossAsignName = user.BossName,
                 Tickets = null
             };
 
