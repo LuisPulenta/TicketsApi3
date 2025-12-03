@@ -323,6 +323,17 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             List<UserViewModel> list = new List<UserViewModel>();
             foreach (User user in users)
             {
+                string bossId = null;
+                string bossName = null;
+
+                if (user.BossId != null)
+                {
+                    User boss = await _userHelper.GetUserByIdAsync(user.BossId);
+                    bossId = boss.Id;
+                    bossName = boss.FullName;
+                }
+
+
                 UserViewModel userViewModel = new UserViewModel
                 {
                     Id = user.Id,
@@ -348,8 +359,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     Active = user.Active,
                     IsResolver = user.IsResolver,
                     IsBoss = user.IsBoss,
-                    BossAsign = user.BossId,
-                    BossAsignName = user.BossName,
+                    BossAsign = bossId,
+                    BossAsignName = bossName,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
