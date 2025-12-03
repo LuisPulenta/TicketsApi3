@@ -131,6 +131,13 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             User createUser = await _userHelper.GetUserByIdAsync(request.CreateUserId);
             User lastChangeUser = await _userHelper.GetUserByIdAsync(request.LastChangeUserId);
 
+            Branch branch = null;
+
+            if (request.IdBranch != null)
+            {
+                branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.IdBranch);
+            }
+
             user = new User
             {
                 Email = request.Email,
@@ -149,8 +156,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 Active = true,
                 IsResolver = 0,
                 IsBoss = 0,
-                BranchId = null,
-                Branch = null,
+                BranchId = branch != null ? branch.Id : null,
+                Branch = branch,
             };
 
             await _userHelper.AddUserAsync(user, request.Password);
@@ -178,8 +185,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 Active = user.Active,
                 IsResolver = user.IsResolver,
                 IsBoss = user.IsResolver,
-                BranchId = user.BranchId,
-                BranchName = user.Branch.Name,
+                BranchId = branch != null ? user.BranchId : null,
+                BranchName = branch != null ? user.Branch.Name : null,
             };
 
             return Ok(user2);
