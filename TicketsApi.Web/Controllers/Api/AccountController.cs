@@ -348,6 +348,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     Active = user.Active,
                     IsResolver = user.IsResolver,
                     IsBoss = user.IsBoss,
+                    BossAsign = user.BossId,
+                    BossAsignName = user.BossName,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
