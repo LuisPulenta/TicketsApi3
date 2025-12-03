@@ -241,7 +241,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             user.IsResolver = request.IsResolver;
             user.IsBoss = request.IsBoss;
             user.BossId = boss != null ? boss.Id : null;
-            user.BossName = boss != null ? boss.BossName : null;
+            user.BossName = boss != null ? boss.FullName : null;
             user.LastChangeUserId = lastChangeUser.Id;
             user.LastChangeUserName = lastChangeUser.FullName;
             user.LastChangeDate = ahora;
