@@ -377,6 +377,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         {
             List<User> users = await _context.Users
                 .Include(x => x.Company)
+                .Include(x => x.Branch)
                 .Include(x => x.Tickets)
                 .Where(x => x.Company.Id == CompanyId)
                 .OrderBy(x => x.Company.Name + x.LastName + x.FirstName)
