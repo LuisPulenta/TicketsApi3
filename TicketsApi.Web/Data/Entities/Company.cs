@@ -43,15 +43,18 @@ namespace TicketsApi.Web.Data.Entities
 
         [Display(Name = "Logo")]
         public string Photo { get; set; }
-        public string PhotoFullPath => string.IsNullOrEmpty(Photo)
-        ? $"https://gaos2.keypress.com.ar/TicketsApi/images/logos/noimage.png"
-        : $"https://gaos2.keypress.com.ar/TicketsApi{Photo.Substring(1)}";
 
+        public string PhotoFullPath => string.IsNullOrEmpty(Photo)
+        ? $"https://keypress.serveftp.net/TicketsApi/images/logos/noimage.png"
+        : $"https://keypress.serveftp.net/TicketsApi{Photo.Substring(1)}";
+
+        [Display(Name = "Usuarios")]
         public ICollection<User>? Users { get; set; }
+
+        [Display(Name = "Sucursales")]
+        public ICollection<Branch>? Branchs { get; set; }
 
         [Display(Name = "Usuarios")]
         public int UsersNumber => Users == null ? 0 : Users.Count;
     }
 }
-
-

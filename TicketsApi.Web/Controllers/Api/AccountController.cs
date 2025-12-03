@@ -30,9 +30,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         private readonly DataContext _context;
         private readonly IMailHelper _mailHelper;
         private readonly IImageHelper _imageHelper;
-        
 
-        public AccountController(IUserHelper userHelper, IConfiguration configuration, DataContext context, IMailHelper mailHelper, IImageHelper imageHelper )
+        public AccountController(IUserHelper userHelper, IConfiguration configuration, DataContext context, IMailHelper mailHelper, IImageHelper imageHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -72,7 +71,10 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                         LastChangeUserId = user2.LastChangeUserId,
                         LastChangeUserName = user2.LastChangeUserName,
                         Active = user2.Active,
-                        IsResolver=user2.IsResolver
+                        IsResolver = user2.IsResolver,
+                        IsBoss = user2.IsBoss,
+                        BranchId = user2.BranchId,
+                        BranchName = user2.Branch != null ? user2.Branch.Name : null,
                     };
 
                     if (result.Succeeded)
@@ -136,16 +138,19 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 LastName = request.LastName,
                 PhoneNumber = request.PhoneNumber,
                 UserName = request.Email,
-                UserType = request.IdUserType == 0 ? UserType.AdminKP : request.IdUserType == 1 ?UserType.Admin :UserType.User, 
+                UserType = request.IdUserType == 0 ? UserType.AdminKP : request.IdUserType == 1 ? UserType.Admin : UserType.User,
                 CompanyId = company.Id,
-                CreateUserId= createUser.Id,
+                CreateUserId = createUser.Id,
                 CreateUserName = createUser.FullName,
                 LastChangeUserId = lastChangeUser.Id,
                 LastChangeUserName = lastChangeUser.FullName,
                 CreateDate = ahora,
-                LastChangeDate= ahora,
-                Active=true,
-                IsResolver=0,
+                LastChangeDate = ahora,
+                Active = true,
+                IsResolver = 0,
+                IsBoss = 0,
+                BranchId = null,
+                Branch = null,
             };
 
             await _userHelper.AddUserAsync(user, request.Password);
@@ -171,7 +176,10 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 LastChangeUserId = user.LastChangeUserId,
                 LastChangeUserName = user.LastChangeUserName,
                 Active = user.Active,
-                IsResolver=user.IsResolver,
+                IsResolver = user.IsResolver,
+                IsBoss = user.IsResolver,
+                BranchId = user.BranchId,
+                BranchName = user.Branch.Name,
             };
 
             return Ok(user2);
@@ -200,15 +208,18 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             DateTime ahora = DateTime.Now;
 
             Company company = await _context.Companies.FirstOrDefaultAsync(o => o.Id == request.IdCompany);
+            Branch branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.IdBranch);
             User lastChangeUser = await _userHelper.GetUserByIdAsync(request.LastChangeUserId);
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.PhoneNumber = request.PhoneNumber;
             user.Company = company;
-            user.Active= request.Active;
+            user.Branch = branch;
+            user.Active = request.Active;
             user.IsResolver = request.IsResolver;
-            user.LastChangeUserId= lastChangeUser.Id;
+            user.IsBoss = request.IsBoss;
+            user.LastChangeUserId = lastChangeUser.Id;
             user.LastChangeUserName = lastChangeUser.FullName;
             user.LastChangeDate = ahora;
             user.UserType = request.IdUserType == 0 ? UserType.AdminKP : request.IdUserType == 1 ? UserType.Admin : UserType.User;
@@ -248,8 +259,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             return BadRequest(ModelState);
         }
 
-            //-------------------------------------------------------------------------------------------------
-            [HttpPost]
+        //-------------------------------------------------------------------------------------------------
+        [HttpPost]
         [Route("RecoverPassword")]
         public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
         {
@@ -300,7 +311,11 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     EmailConfirm = user.EmailConfirmed,
                     PhoneNumber = user.PhoneNumber,
                     CompanyId = user.Company != null ? user.Company.Id : 1,
-                    CompanyName = user.Company != null ? user.Company.Name:"KeyPress",
+                    CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
+
+                    BranchId = user.Branch != null ? user.Branch.Id : null,
+                    BranchName = user.Branch != null ? user.Branch.Name : null,
+
                     CreateDate = user.CreateDate,
                     CreateUserId = user.CreateUserId,
                     CreateUserName = user.CreateUserName,
@@ -308,7 +323,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserId = user.LastChangeUserId,
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
-                    IsResolver=user.IsResolver,
+                    IsResolver = user.IsResolver,
+                    IsBoss = user.IsBoss,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
@@ -339,7 +355,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             List<User> users = await _context.Users
                 .Include(x => x.Company)
                 .Include(x => x.Tickets)
-                .Where(x=>x.Company.Id == CompanyId)
+                .Where(x => x.Company.Id == CompanyId)
                 .OrderBy(x => x.Company.Name + x.LastName + x.FirstName)
                 .ToListAsync();
 
@@ -358,6 +374,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     PhoneNumber = user.PhoneNumber,
                     CompanyId = user.Company != null ? user.Company.Id : 1,
                     CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
+                    BranchId = user.Branch != null ? user.Branch.Id : null,
+                    BranchName = user.Branch != null ? user.Branch.Name : null,
                     CreateDate = user.CreateDate,
                     CreateUserId = user.CreateUserId,
                     CreateUserName = user.CreateUserName,
@@ -366,6 +384,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
                     IsResolver = user.IsResolver,
+                    IsBoss = user.IsBoss,
                     Tickets = user.Tickets?.Select(ticket => new TicketCabViewModel
                     {
                         Id = ticket.Id,
@@ -430,6 +449,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 PhoneNumber = user.PhoneNumber,
                 CompanyId = user.Company != null ? user.Company.Id : 1,
                 CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
+                BranchId = user.Branch != null ? user.Branch.Id : null,
+                BranchName = user.Branch != null ? user.Branch.Name : null,
                 CreateDate = user.CreateDate,
                 CreateUserId = user.CreateUserId,
                 CreateUserName = user.CreateUserName,
@@ -438,10 +459,11 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 LastChangeUserName = user.LastChangeUserName,
                 Active = user.Active,
                 IsResolver = user.IsResolver,
+                IsBoss = user.IsBoss,
                 Tickets = null
             };
 
-            return userViewModel;            
+            return userViewModel;
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -455,7 +477,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 {
                     return BadRequest("El correo ingresado no corresponde a ningún usuario.");
                 }
-                
+
                 await SendConfirmationEmailAsync(user);
 
                 return NoContent();
@@ -481,7 +503,6 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             return Ok(user);
         }
 
-
         //-------------------------------------------------------------------------------------------------
         [HttpDelete]
         [Route("DeleteUserById/{Id}")]
@@ -497,7 +518,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
         }
 
         //-----------------------------------------------------------------------------------
-     
+
         [HttpGet("combo/{Id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<IEnumerable<User>>> GetCombo(int Id)
@@ -505,7 +526,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             List<User> users = await _context.Users
                 .Include(x => x.Company)
                 .OrderBy(x => x.FirstName + x.LastName)
-                .Where(c => c.Active && c.CompanyId == Id && c.UserType==UserType.User)
+                .Where(c => c.Active && c.CompanyId == Id && c.UserType == UserType.User)
                 .ToListAsync();
 
             List<UserViewModel> list = new List<UserViewModel>();
@@ -523,6 +544,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     PhoneNumber = user.PhoneNumber,
                     CompanyId = user.Company != null ? user.Company.Id : 1,
                     CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
+                    BranchId = user.Branch != null ? user.Branch.Id : null,
+                    BranchName = user.Branch != null ? user.Branch.Name : null,
                     CreateDate = user.CreateDate,
                     CreateUserId = user.CreateUserId,
                     CreateUserName = user.CreateUserName,
@@ -531,7 +554,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     LastChangeUserName = user.LastChangeUserName,
                     Active = user.Active,
                     IsResolver = user.IsResolver,
-                    Tickets = {},
+                    IsBoss = user.IsBoss,
+                    Tickets = { },
                 };
 
                 list.Add(userViewModel);
@@ -546,15 +570,15 @@ namespace TicketsApi.Àpi.Controllers.Àpi
 
         {
             List<User> users = await _context.Users
-                .Where(x => x.Company.Id == CompanyId && x.UserType==UserType.Admin && x.Active)
+                .Where(x => x.Company.Id == CompanyId && x.UserType == UserType.Admin && x.Active)
                 .ToListAsync();
 
             string emailsAdmins = "";
             foreach (User user in users)
             {
-                emailsAdmins=emailsAdmins + user.Email+",";
+                emailsAdmins = emailsAdmins + user.Email + ",";
             }
-            
+
             if (!string.IsNullOrEmpty(emailsAdmins))
             {
                 emailsAdmins = emailsAdmins.Substring(0, emailsAdmins.Length - 1);

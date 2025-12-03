@@ -27,6 +27,18 @@ namespace TicketsApi.Web.Data.Entities
         [Display(Name = "Empresa")]
         public int? CompanyId { get; set; }
 
+        [Display(Name = "Sucursal")]
+        public Branch? Branch { get; set; }
+
+        [Display(Name = "Sucursal")]
+        public int? BranchId { get; set; }
+
+        [Display(Name = "Jefe")]
+        public string BossId { get; set; }
+
+        [Display(Name = "Jefe")]
+        public string BossName { get; set; }
+
         [Display(Name = "Fecha Creación")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public DateTime CreateDate { get; set; }
@@ -56,6 +68,9 @@ namespace TicketsApi.Web.Data.Entities
 
         [Display(Name = "Resolutor")]
         public int? IsResolver { get; set; }
+
+        [Display(Name = "Jefe")]
+        public int? IsBoss { get; set; }
 
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";

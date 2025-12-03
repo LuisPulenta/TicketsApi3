@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
+using TicketsApi.Web.Data.Entities;
 
 namespace TicketsApi.Web.Models
 {
@@ -24,6 +25,11 @@ namespace TicketsApi.Web.Models
         public string? LastChangeUserName { get; set; }
         public bool Active { get; set; }
         public int? IsResolver { get; set; }
+        public int? IsBoss { get; set; }
+        public int? BranchId { get; set; }
+        public string? BranchName { get; set; }
+
+
         public ICollection<TicketCabViewModel> Tickets { get; set; }
         public string FullName => $"{FirstName} {LastName}";
     }

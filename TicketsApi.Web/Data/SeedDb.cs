@@ -27,7 +27,7 @@ namespace TicketsApi.Web.Data
 
             await CheckCompaniesAsync();
 
-            Company keypress = await _context.Companies.FirstOrDefaultAsync(o => o.Id ==1);
+            Company keypress = await _context.Companies.FirstOrDefaultAsync(o => o.Id == 1);
             Company fleet = await _context.Companies.FirstOrDefaultAsync(o => o.Id == 2);
             Company rowing = await _context.Companies.FirstOrDefaultAsync(o => o.Id == 3);
 
@@ -35,13 +35,13 @@ namespace TicketsApi.Web.Data
 
             //await CheckUserAsync("Darío", "Nolose", "dario@yopmail.com", "11 4444 5555", UserType.Admin, fleet);
             //await CheckUserAsync("Gonzalo", "Prieto", "gonzalo@yopmail.com", "11 2222 3333", UserType.Admin, rowing);
-            
+
             //await CheckUserAsync("Lionel", "Messi", "messi@yopmail.com", "311 322 4620", UserType.User, fleet);
             //await CheckUserAsync("Diego", "Maradona", "maradona@yopmail.com", "311 322 4620", UserType.User, fleet);
             //await CheckUserAsync("Mario", "Kempes", "kempes@yopmail.com", "311 322 4620", UserType.User, rowing);
             //await CheckUserAsync("Gabriel", "Batistuta", "batistuta@yopmail.com", "311 322 4620", UserType.User, rowing);
             //await CheckUserAsync("Daniel", "Passarella", "passarella@yopmail.com", "311 322 4620", UserType.User, rowing);
-            
+
             await CheckCompaniesAsync();
         }
 
@@ -59,7 +59,7 @@ namespace TicketsApi.Web.Data
             DateTime ahora = DateTime.Now;
 
             User user = await _userHelper.GetUserAsync(email);
-            
+
             if (user == null)
             {
                 user = new User
@@ -71,12 +71,16 @@ namespace TicketsApi.Web.Data
                     UserName = email,
                     UserType = userType,
                     Company = company,
+                    Branch = null,
+                    BranchId = null,
+                    BossName = "",
+                    BossId = null,
                     CreateDate = ahora,
                     CreateUserId = "",
-                    CreateUserName="",
+                    CreateUserName = "",
                     LastChangeDate = ahora,
                     LastChangeUserId = "",
-                    LastChangeUserName="",
+                    LastChangeUserName = "",
                     Active = true,
                 };
 
@@ -97,18 +101,21 @@ namespace TicketsApi.Web.Data
                 DateTime ahora = DateTime.Now;
                 User user = await _userHelper.GetUserAsync("luisalbertonu@gmail.com");
 
-                _context.Companies.Add(new Company { 
-                    Name = "Keypress", 
-                    CreateDate = ahora, 
-                    CreateUserId = user.Id, 
-                    CreateUserName=user.FullName,
-                    LastChangeDate=ahora,
-                    LastChangeUserId=user.Id,
-                    LastChangeName=user.FullName,
-                    Active = true, 
-                    Photo = "~/images/Logos/logokp.png", });
-                
-                _context.Companies.Add(new Company { 
+                _context.Companies.Add(new Company
+                {
+                    Name = "Keypress",
+                    CreateDate = ahora,
+                    CreateUserId = user.Id,
+                    CreateUserName = user.FullName,
+                    LastChangeDate = ahora,
+                    LastChangeUserId = user.Id,
+                    LastChangeName = user.FullName,
+                    Active = true,
+                    Photo = "~/images/Logos/logokp.png",
+                });
+
+                _context.Companies.Add(new Company
+                {
                     Name = "Fleet",
                     CreateDate = ahora,
                     CreateUserId = user.Id,
@@ -116,9 +123,12 @@ namespace TicketsApi.Web.Data
                     LastChangeDate = ahora,
                     LastChangeUserId = user.Id,
                     LastChangeName = user.FullName,
-                    Active = true, Photo = "~/images/Logos/logofleet.png", });
+                    Active = true,
+                    Photo = "~/images/Logos/logofleet.png",
+                });
 
-                _context.Companies.Add(new Company { 
+                _context.Companies.Add(new Company
+                {
                     Name = "Rowing",
                     CreateDate = ahora,
                     CreateUserId = user.Id,
@@ -126,7 +136,9 @@ namespace TicketsApi.Web.Data
                     LastChangeDate = ahora,
                     LastChangeUserId = user.Id,
                     LastChangeName = user.FullName,
-                    Active = true, Photo = "~/images/Logos/logorowing.png" });
+                    Active = true,
+                    Photo = "~/images/Logos/logorowing.png"
+                });
                 await _context.SaveChangesAsync();
             }
         }

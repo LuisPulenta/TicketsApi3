@@ -15,11 +15,12 @@ namespace TicketsApi.Web.Models
         public string? LastChangeUserName { get; set; }
         public bool Active { get; set; }
         public string Photo { get; set; }
+
         public string PhotoFullPath => string.IsNullOrEmpty(Photo)
-        ? $"https://gaos2.keypress.com.ar/TicketsApi/images/logos/noimage.png"
-        : $"https://gaos2.keypress.com.ar/TicketsApi{Photo.Substring(1)}";
+        ? $"https://keypress.serveftp.net/TicketsApi/images/logos/noimage.png"
+        : $"https://keypress.serveftp.net/TicketsApi{Photo.Substring(1)}";
+
         public ICollection<UserViewModel> Users { get; set; }
         public int UsersNumber => Users == null ? 0 : Users.Count;
     }
 }
-

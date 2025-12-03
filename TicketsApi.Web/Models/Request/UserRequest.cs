@@ -15,5 +15,7 @@ namespace TicketsApi.Web.Models.Request
         public string LastChangeUserId { get; set; }
         public bool Active { get; set; }
         public int? IsResolver { get; set; }
+        public int? IsBoss { get; set; }
+        public int IdBranch { get; set; }
     }
 }

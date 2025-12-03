@@ -12,7 +12,7 @@ namespace TicketsApi.Web.Models
         public string StateUserName { get; set; }
         public string Image { get; set; }
         public string ImageFullPath => string.IsNullOrEmpty(Image)
-        ? $"https://gaos2.keypress.com.ar/TicketsApi/images/tickets/noimage.png"
-        : $"https://gaos2.keypress.com.ar/TicketsApi{Image.Substring(1)}";
+        ? $"https://keypress.serveftp.net/TicketsApi/images/tickets/noimage.png"
+        : $"https://keypress.serveftp.net/TicketsApi{Image.Substring(1)}";
     }
 }

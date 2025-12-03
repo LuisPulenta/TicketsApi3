@@ -9,8 +9,9 @@ namespace TicketsApi.Web.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        
+
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Branch> Branches { get; set; }
         public DbSet<TicketCab> TicketCabs { get; set; }
         public DbSet<TicketDet> TicketDets { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -20,6 +21,7 @@ namespace TicketsApi.Web.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Company>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Branch>().HasIndex("Name", "CompanyId").IsUnique();
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Subcategory>().HasIndex("Name", "CategoryId").IsUnique();
         }
