@@ -133,9 +133,9 @@ namespace TicketsApi.Àpi.Controllers.Àpi
 
             Branch branch = null;
 
-            if (request.IdBranch != null)
+            if (request.BranchId != null)
             {
-                branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.IdBranch);
+                branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.BranchId);
             }
 
             user = new User
@@ -158,6 +158,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                 IsBoss = 0,
                 BranchId = branch != null ? branch.Id : null,
                 Branch = branch,
+                BossId = null,
+                BossName = null
             };
 
             await _userHelper.AddUserAsync(user, request.Password);
@@ -215,8 +217,20 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             DateTime ahora = DateTime.Now;
 
             Company company = await _context.Companies.FirstOrDefaultAsync(o => o.Id == request.IdCompany);
-            Branch branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.IdBranch);
             User lastChangeUser = await _userHelper.GetUserByIdAsync(request.LastChangeUserId);
+
+            Branch branch = null;
+            User boss = null;
+
+            if (request.BranchId != null)
+            {
+                branch = await _context.Branches.FirstOrDefaultAsync(o => o.Id == request.BranchId);
+            }
+
+            if (request.BossId != null)
+            {
+                boss = await _userHelper.GetUserByIdAsync(request.BossId);
+            }
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
@@ -226,6 +240,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             user.Active = request.Active;
             user.IsResolver = request.IsResolver;
             user.IsBoss = request.IsBoss;
+            user.BossId = boss != null ? boss.Id : null;
+            user.BossName = boss != null ? boss.BossName : null;
             user.LastChangeUserId = lastChangeUser.Id;
             user.LastChangeUserName = lastChangeUser.FullName;
             user.LastChangeDate = ahora;
