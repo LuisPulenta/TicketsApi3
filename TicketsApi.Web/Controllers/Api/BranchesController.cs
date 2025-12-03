@@ -145,7 +145,7 @@ namespace TicketsApi.Web.Controllers.Api
             }
 
             Branch oldBranch = await _context.Branches
-                .Include(c=>c.Company)
+                .Include(c => c.Company)
                 .FirstOrDefaultAsync(o => o.Id == branchRequest.Id);
 
             DateTime ahora = DateTime.Now;
@@ -156,8 +156,6 @@ namespace TicketsApi.Web.Controllers.Api
             oldBranch!.LastChangeDate = ahora;
             oldBranch!.LastChangeUserId = lastChangeUser.Id;
             oldBranch.LastChangeName = lastChangeUser.FullName;
-
-
 
             _context.Update(oldBranch);
             try
@@ -288,6 +286,7 @@ namespace TicketsApi.Web.Controllers.Api
         public async Task<ActionResult> GetCombo(int companyId)
         {
             List<Branch> branches = await _context.Branches
+                .Include(x => x.Company)
              .OrderBy(x => x.Name)
              .Where(c => c.Active && c.Company.Id == companyId)
              .ToListAsync();
