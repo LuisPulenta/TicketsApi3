@@ -176,7 +176,22 @@ namespace TicketsApi.Web.Controllers.Api
                 return BadRequest(exception.Message);
             }
 
-            return Ok(oldBranch);
+            BranchViewModel branchViewModel = new BranchViewModel
+            {
+                Id = oldBranch.Id,
+                Name = oldBranch.Name,
+                CreateDate = oldBranch.CreateDate,
+                CreateUserId = oldBranch.CreateUserId,
+                CreateUserName = oldBranch.CreateUserName,
+                LastChangeDate = oldBranch.LastChangeDate,
+                LastChangeUserId = oldBranch.LastChangeUserId,
+                LastChangeUserName = oldBranch.LastChangeName,
+                Active = oldBranch.Active,
+                CompanyId = oldBranch.Company.Id,
+                CompanyName = oldBranch.Company.Name,
+            };
+
+            return Ok(branchViewModel);
         }
 
         //-----------------------------------------------------------------------------------
@@ -213,7 +228,23 @@ namespace TicketsApi.Web.Controllers.Api
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok(newBranch);
+
+                BranchViewModel branchViewModel = new BranchViewModel
+                {
+                    Id = newBranch.Id,
+                    Name = newBranch.Name,
+                    CreateDate = newBranch.CreateDate,
+                    CreateUserId = newBranch.CreateUserId,
+                    CreateUserName = newBranch.CreateUserName,
+                    LastChangeDate = newBranch.LastChangeDate,
+                    LastChangeUserId = newBranch.LastChangeUserId,
+                    LastChangeUserName = newBranch.LastChangeName,
+                    Active = newBranch.Active,
+                    CompanyId = newBranch.Company.Id,
+                    CompanyName = newBranch.Company.Name,
+                };
+
+                return Ok(branchViewModel);
             }
             catch (DbUpdateException dbUpdateException)
             {
