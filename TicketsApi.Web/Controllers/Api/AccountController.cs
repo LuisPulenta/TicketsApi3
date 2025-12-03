@@ -346,10 +346,8 @@ namespace TicketsApi.Àpi.Controllers.Àpi
                     PhoneNumber = user.PhoneNumber,
                     CompanyId = user.Company != null ? user.Company.Id : 1,
                     CompanyName = user.Company != null ? user.Company.Name : "KeyPress",
-
                     BranchId = user.Branch != null ? user.Branch.Id : null,
                     BranchName = user.Branch != null ? user.Branch.Name : null,
-
                     CreateDate = user.CreateDate,
                     CreateUserId = user.CreateUserId,
                     CreateUserName = user.CreateUserName,
