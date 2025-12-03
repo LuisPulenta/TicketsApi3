@@ -237,6 +237,7 @@ namespace TicketsApi.Àpi.Controllers.Àpi
             user.PhoneNumber = request.PhoneNumber;
             user.Company = company;
             user.Branch = branch;
+            user.BranchId = branch!=null ? branch.Id : null;
             user.Active = request.Active;
             user.IsResolver = request.IsResolver;
             user.IsBoss = request.IsBoss;
