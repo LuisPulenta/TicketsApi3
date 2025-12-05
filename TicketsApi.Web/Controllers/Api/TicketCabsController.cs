@@ -87,7 +87,7 @@ namespace TicketsApi.Web.Controllers.Api
                     CreateUserName = createUser.FullName,
                     CompanyId = ticketCab.CompanyId,
                     CompanyName = ticketCab.CompanyName,
-                    CategoryId=ticketCab.CategoryId,
+                    CategoryId = ticketCab.CategoryId,
                     CategoryName = ticketCab.CategoryName,
                     SubcategoryId = ticketCab.SubcategoryId,
                     SubcategoryName = ticketCab.SubcategoryName,
@@ -107,7 +107,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -157,7 +156,6 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 oldTicketCab.TicketState = TicketState.Derivado;
             }
-
 
             oldTicketCab.AsignDate = ticketCabRequest.AsignDate;
             oldTicketCab.InProgressDate = ticketCabRequest.InProgressDate;
@@ -214,7 +212,7 @@ namespace TicketsApi.Web.Controllers.Api
                 UserAsignName = ticketCab.UserAsignName,
                 InProgressDate = null,
                 FinishDate = null,
-                CategoryId=ticketCab.CategoryId,
+                CategoryId = ticketCab.CategoryId,
                 CategoryName = ticketCab.CategoryName,
                 SubcategoryId = ticketCab.SubcategoryId,
                 SubcategoryName = ticketCab.SubcategoryName,
@@ -277,7 +275,6 @@ namespace TicketsApi.Web.Controllers.Api
                 ticketState = TicketState.Derivado;
             }
 
-
             TicketDet newTicketDet = new TicketDet
             {
                 Id = 0,
@@ -293,7 +290,7 @@ namespace TicketsApi.Web.Controllers.Api
             if (ticketDetRequest.ImageArray != null)
             {
                 var stream = new MemoryStream(ticketDetRequest.ImageArray);
-                var fileName= ticketDetRequest.FileName.Substring(0, ticketDetRequest.FileName.IndexOf(".", 0));
+                var fileName = ticketDetRequest.FileName.Substring(0, ticketDetRequest.FileName.IndexOf(".", 0));
                 var guid = $"{fileName}{Guid.NewGuid().ToString()}";
                 var file = $"{guid}.{ticketDetRequest.FileExtension}";
                 var folder = "wwwroot\\images\\Tickets";
@@ -339,7 +336,6 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
-
                 TicketDetViewModel ticketDetViewModel = new TicketDetViewModel
                 {
                     Id = newTicketDet.Id,
@@ -353,7 +349,6 @@ namespace TicketsApi.Web.Controllers.Api
 
                 return Ok(ticketDetViewModel);
             }
-
             catch (Exception exception)
             {
                 return BadRequest(exception.Message);
@@ -380,11 +375,9 @@ namespace TicketsApi.Web.Controllers.Api
         [HttpGet("{id}")]
         public async Task<ActionResult<TicketCabViewModel>> GetTicketCab(int id)
         {
-
             TicketCab ticketCab = await _context.TicketCabs
                 .Include(u => u.TicketDets)
                 .FirstOrDefaultAsync(p => p.Id == id);
-
 
             if (ticketCab == null)
             {
@@ -430,9 +423,9 @@ namespace TicketsApi.Web.Controllers.Api
                 CompanyId = ticketCab.CompanyId,
                 CompanyName = ticketCab.CompanyName,
                 CategoryId = ticketCab.CategoryId,
-                CategoryName    = ticketCab.CategoryName,
+                CategoryName = ticketCab.CategoryName,
                 SubcategoryId = ticketCab.SubcategoryId,
-                SubcategoryName = ticketCab.SubcategoryName,    
+                SubcategoryName = ticketCab.SubcategoryName,
                 Title = ticketCab.Title,
                 TicketState = ticketCab.TicketState,
                 AsignDate = ticketCab.AsignDate,
@@ -453,7 +446,6 @@ namespace TicketsApi.Web.Controllers.Api
             };
 
             return ticketCabViewModel;
-
         }
 
         //-----------------------------------------------------------------------------------
@@ -463,7 +455,7 @@ namespace TicketsApi.Web.Controllers.Api
         {
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.UserId==id && x.TicketState != TicketState.Resuelto)
+                .Where(x => x.UserId == id && x.TicketState != TicketState.Resuelto)
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
@@ -474,7 +466,6 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 User createUser = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
-
 
                 string ticketStateName = "";
 
@@ -512,7 +503,7 @@ namespace TicketsApi.Web.Controllers.Api
                     CompanyId = ticketCab.CompanyId,
                     CompanyName = ticketCab.CompanyName,
                     CategoryId = ticketCab.CategoryId,
-                    CategoryName    = ticketCab.CategoryName,
+                    CategoryName = ticketCab.CategoryName,
                     SubcategoryId = ticketCab.SubcategoryId,
                     SubcategoryName = ticketCab.SubcategoryName,
                     Title = ticketCab.Title,
@@ -531,7 +522,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -558,7 +548,6 @@ namespace TicketsApi.Web.Controllers.Api
                 User createUser = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
 
-
                 string ticketStateName = "";
                 if (ticketCab.TicketState == TicketState.Enviado)
                 {
@@ -613,7 +602,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -640,7 +628,6 @@ namespace TicketsApi.Web.Controllers.Api
                 User createUser = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
 
-
                 string ticketStateName = "";
 
                 if (ticketCab.TicketState == TicketState.Enviado)
@@ -667,7 +654,6 @@ namespace TicketsApi.Web.Controllers.Api
                 {
                     ticketStateName = "Derivado";
                 }
-
 
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
@@ -697,7 +683,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -716,7 +701,7 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.TicketState == TicketState.Resuelto && x.CreateDate>=request.Desde && x.CreateDate<=request.Hasta.AddDays(1))
+                .Where(x => x.TicketState == TicketState.Resuelto && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
                 .OrderBy(x => x.CompanyName)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -747,7 +732,6 @@ namespace TicketsApi.Web.Controllers.Api
                 User createUser = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
 
-
                 string ticketStateName = "";
                 if (ticketCab.TicketState == TicketState.Enviado)
                 {
@@ -802,7 +786,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -810,20 +793,18 @@ namespace TicketsApi.Web.Controllers.Api
             return Ok(list);
         }
 
-
         //-----------------------------------------------------------------------------------
         [HttpPost()]
         [Route("GetTicketParaResolver/{id}")]
         public async Task<ActionResult<IEnumerable<TicketCab>>> GetTicketParaResolver(String id)
         {
             List<TicketCab> ticketCabs = new List<TicketCab>();
-          
-                ticketCabs = await _context.TicketCabs
-                .Include(x => x.TicketDets)
-                .Where(x => x.UserAsign == id && x.TicketState == TicketState.Derivado)
-                .OrderBy(x => x.AsignDate)
-                .ToListAsync();
-           
+
+            ticketCabs = await _context.TicketCabs
+            .Include(x => x.TicketDets)
+            .Where(x => x.UserAsign == id && x.TicketState == TicketState.Derivado)
+            .OrderBy(x => x.AsignDate)
+            .ToListAsync();
 
             List<TicketCabViewModel> list = new List<TicketCabViewModel>();
 
@@ -832,6 +813,87 @@ namespace TicketsApi.Web.Controllers.Api
                 User createUser = await _context.Users
                 .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
 
+                string ticketStateName = "";
+
+                if (ticketCab.TicketState == TicketState.Enviado)
+                {
+                    ticketStateName = "Enviado";
+                }
+                if (ticketCab.TicketState == TicketState.Devuelto)
+                {
+                    ticketStateName = "Devuelto";
+                }
+                if (ticketCab.TicketState == TicketState.Asignado)
+                {
+                    ticketStateName = "Asignado";
+                }
+                if (ticketCab.TicketState == TicketState.Encurso)
+                {
+                    ticketStateName = "Encurso";
+                }
+                if (ticketCab.TicketState == TicketState.Resuelto)
+                {
+                    ticketStateName = "Resuelto";
+                }
+                if (ticketCab.TicketState == TicketState.Derivado)
+                {
+                    ticketStateName = "Derivado";
+                }
+
+                TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
+                {
+                    Id = ticketCab.Id,
+                    CreateDate = ticketCab.CreateDate,
+                    CreateUserId = createUser.Id,
+                    CreateUserName = createUser.FullName,
+                    CompanyId = ticketCab.CompanyId,
+                    CompanyName = ticketCab.CompanyName,
+                    CategoryId = ticketCab.CategoryId,
+                    CategoryName = ticketCab.CategoryName,
+                    SubcategoryId = ticketCab.SubcategoryId,
+                    SubcategoryName = ticketCab.SubcategoryName,
+                    Title = ticketCab.Title,
+                    TicketState = ticketCab.TicketState,
+                    AsignDate = ticketCab.AsignDate,
+                    UserAsign = ticketCab.UserAsign,
+                    UserAsignName = ticketCab.UserAsignName,
+                    InProgressDate = ticketCab.InProgressDate,
+                    FinishDate = ticketCab.FinishDate,
+                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    {
+                        Id = ticketCab.Id,
+                        Description = ticketCab.Description,
+                        TicketState = ticketStateName,
+                        StateDate = ticketCab.StateDate,
+                        StateUserId = ticketCab.StateUserId,
+                        StateUserName = ticketCab.StateUserName,
+                        Image = ticketCab.Image,
+                    }).ToList(),
+                };
+                list.Add(ticketCabViewModel);
+            }
+            return Ok(list);
+        }
+
+        //-----------------------------------------------------------------------------------
+        [HttpPost()]
+        [Route("GetTicketProcessing/{id}")]
+        public async Task<ActionResult<IEnumerable<TicketCab>>> GetTicketProcessing(int id)
+        {
+            List<TicketCab> ticketCabs = new List<TicketCab>();
+
+            ticketCabs = await _context.TicketCabs
+            .Include(x => x.TicketDets)
+            .Where(x => x.CompanyId == id && (x.TicketState == TicketState.Devuelto || x.TicketState == TicketState.Asignado || x.TicketState == TicketState.Encurso || x.TicketState == TicketState.Derivado))
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+
+            List<TicketCabViewModel> list = new List<TicketCabViewModel>();
+
+            foreach (TicketCab ticketCab in ticketCabs)
+            {
+                User createUser = await _context.Users
+                .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
 
                 string ticketStateName = "";
 
@@ -888,7 +950,6 @@ namespace TicketsApi.Web.Controllers.Api
                         StateUserId = ticketCab.StateUserId,
                         StateUserName = ticketCab.StateUserName,
                         Image = ticketCab.Image,
-
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -901,7 +962,7 @@ namespace TicketsApi.Web.Controllers.Api
         [Route("SendEmail")]
         public void SendEmail(SendEmailRequest request)
         {
-            _mailHelper.SendMail(request.to, request.cc, request.subject, request.body);    
+            _mailHelper.SendMail(request.to, request.cc, request.subject, request.body);
         }
     }
 }
