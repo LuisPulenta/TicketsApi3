@@ -1113,6 +1113,111 @@ namespace TicketsApi.Web.Controllers.Api
 
         //-----------------------------------------------------------------------------------
         [HttpPost()]
+        [Route("GetTicketParaAutorizar/{id}")]
+        public async Task<ActionResult<IEnumerable<TicketCab>>> GetTicketParaAutorizar(String id)
+        {
+            List<TicketCab> ticketCabs = new List<TicketCab>();
+
+            ticketCabs = await _context.TicketCabs
+            .Include(x => x.TicketDets)
+            .Where(x => x.UserAuthorize == id && x.TicketState == TicketState.Autorizar)
+            .OrderBy(x => x.AsignDate)
+            .ToListAsync();
+
+            List<TicketCabViewModel> list = new List<TicketCabViewModel>();
+
+            foreach (TicketCab ticketCab in ticketCabs)
+            {
+                User createUser = await _context.Users
+                .FirstOrDefaultAsync(p => p.Id == ticketCab.UserId);
+
+                string ticketStateName = "";
+
+                if (ticketCab.TicketState == TicketState.Enviado)
+                {
+                    ticketStateName = "Enviado";
+                }
+                if (ticketCab.TicketState == TicketState.Devuelto)
+                {
+                    ticketStateName = "Devuelto";
+                }
+                if (ticketCab.TicketState == TicketState.Asignado)
+                {
+                    ticketStateName = "Asignado";
+                }
+                if (ticketCab.TicketState == TicketState.Encurso)
+                {
+                    ticketStateName = "Encurso";
+                }
+                if (ticketCab.TicketState == TicketState.Resuelto)
+                {
+                    ticketStateName = "Resuelto";
+                }
+                if (ticketCab.TicketState == TicketState.Derivado)
+                {
+                    ticketStateName = "Derivado";
+                }
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
+                TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
+                {
+                    Id = ticketCab.Id,
+                    CreateDate = ticketCab.CreateDate,
+                    CreateUserId = createUser.Id,
+                    CreateUserName = createUser.FullName,
+                    CompanyId = ticketCab.CompanyId,
+                    CompanyName = ticketCab.CompanyName,
+                    CategoryId = ticketCab.CategoryId,
+                    CategoryName = ticketCab.CategoryName,
+                    SubcategoryId = ticketCab.SubcategoryId,
+                    SubcategoryName = ticketCab.SubcategoryName,
+                    Title = ticketCab.Title,
+                    TicketState = ticketCab.TicketState,
+                    AsignDate = ticketCab.AsignDate,
+                    UserAsign = ticketCab.UserAsign,
+                    UserAsignName = ticketCab.UserAsignName,
+                    InProgressDate = ticketCab.InProgressDate,
+                    FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
+                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    {
+                        Id = ticketCab.Id,
+                        Description = ticketCab.Description,
+                        TicketState = ticketStateName,
+                        StateDate = ticketCab.StateDate,
+                        StateUserId = ticketCab.StateUserId,
+                        StateUserName = ticketCab.StateUserName,
+                        Image = ticketCab.Image,
+                    }).ToList(),
+                };
+                list.Add(ticketCabViewModel);
+            }
+            return Ok(list);
+        }
+
+        //-----------------------------------------------------------------------------------
+        [HttpPost()]
         [Route("GetTicketProcessing/{id}")]
         public async Task<ActionResult<IEnumerable<TicketCab>>> GetTicketProcessing(int id)
         {
