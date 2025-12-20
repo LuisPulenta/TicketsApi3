@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using TicketsApi.Common.Enums;
-
 
 namespace TicketsApi.Web.Models
 {
@@ -24,6 +24,10 @@ namespace TicketsApi.Web.Models
         public string UserAsignName { get; set; }
         public DateTime? InProgressDate { get; set; }
         public DateTime? FinishDate { get; set; }
+        public DateTime? AuthorizingDate { get; set; }
+        public string UserAuthorize { get; set; }
+        public string UserAuthorizeName { get; set; }
+        public DateTime? LastDate { get; set; }
         public ICollection<TicketDetViewModel>? TicketDets { get; set; }
         public int TicketDetsNumber => TicketDets == null ? 0 : TicketDets.Count;
     }

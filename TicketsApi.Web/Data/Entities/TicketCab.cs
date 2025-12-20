@@ -64,9 +64,21 @@ namespace TicketsApi.Web.Data.Entities
         [Display(Name = "Fecha Fin")]
         public DateTime? FinishDate { get; set; }
 
+        [Display(Name = "Fecha Autorización")]
+        public DateTime? AuthorizingDate { get; set; }
+
+        [Display(Name = "Usuario Autorizante")]
+        public string UserAuthorize { get; set; }
+
+        [Display(Name = "Usuario Autorizante")]
+        public string UserAuthorizeName { get; set; }
+
+        [Display(Name = "Fecha Ultima Modificación")]
+        public DateTime? LastDate { get; set; }
+
         public ICollection<TicketDet>? TicketDets { get; set; }
 
         [Display(Name = "Detalles")]
         public int TicketDetsNumber => TicketDets == null ? 0 : TicketDets.Count;
-}
+    }
 }

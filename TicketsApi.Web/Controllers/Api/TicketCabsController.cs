@@ -79,6 +79,23 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
                     Id = ticketCab.Id,
@@ -98,6 +115,10 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -157,6 +178,26 @@ namespace TicketsApi.Web.Controllers.Api
                 oldTicketCab.TicketState = TicketState.Derivado;
             }
 
+            if (ticketCabRequest.TicketState == 6)
+            {
+                oldTicketCab.TicketState = TicketState.Cerrado;
+            }
+
+            if (ticketCabRequest.TicketState == 7)
+            {
+                oldTicketCab.TicketState = TicketState.Autorizar;
+            }
+
+            if (ticketCabRequest.TicketState == 8)
+            {
+                oldTicketCab.TicketState = TicketState.Autorizado;
+            }
+
+            if (ticketCabRequest.TicketState == 9)
+            {
+                oldTicketCab.TicketState = TicketState.Rechazado;
+            }
+
             oldTicketCab.AsignDate = ticketCabRequest.AsignDate;
             oldTicketCab.InProgressDate = ticketCabRequest.InProgressDate;
             oldTicketCab.FinishDate = ticketCabRequest.FinishDate;
@@ -167,6 +208,11 @@ namespace TicketsApi.Web.Controllers.Api
             oldTicketCab.CategoryName = ticketCabRequest.CategoryName;
             oldTicketCab.SubcategoryId = ticketCabRequest.SubcategoryId;
             oldTicketCab.SubcategoryName = ticketCabRequest.SubcategoryName;
+
+            oldTicketCab.AuthorizingDate = ticketCabRequest.AuthorizingDate;
+            oldTicketCab.UserAuthorize = ticketCabRequest.UserAuthorize;
+            oldTicketCab.UserAuthorizeName = ticketCabRequest.UserAuthorizeName;
+            oldTicketCab.LastDate = DateTime.Now;
 
             _context.Update(oldTicketCab);
             try
@@ -216,6 +262,11 @@ namespace TicketsApi.Web.Controllers.Api
                 CategoryName = ticketCab.CategoryName,
                 SubcategoryId = ticketCab.SubcategoryId,
                 SubcategoryName = ticketCab.SubcategoryName,
+
+                AuthorizingDate = null,
+                UserAuthorize = ticketCab.UserAuthorize,
+                UserAuthorizeName = ticketCab.UserAuthorizeName,
+                LastDate = DateTime.Now,
             };
 
             _context.TicketCabs.Add(newTicketCab);
@@ -273,6 +324,26 @@ namespace TicketsApi.Web.Controllers.Api
             if (ticketDetRequest.TicketState == 5)
             {
                 ticketState = TicketState.Derivado;
+            }
+
+            if (ticketDetRequest.TicketState == 6)
+            {
+                ticketState = TicketState.Cerrado;
+            }
+
+            if (ticketDetRequest.TicketState == 7)
+            {
+                ticketState = TicketState.Autorizar;
+            }
+
+            if (ticketDetRequest.TicketState == 8)
+            {
+                ticketState = TicketState.Autorizado;
+            }
+
+            if (ticketDetRequest.TicketState == 9)
+            {
+                ticketState = TicketState.Rechazado;
             }
 
             TicketDet newTicketDet = new TicketDet
@@ -334,6 +405,26 @@ namespace TicketsApi.Web.Controllers.Api
                 if (newTicketDet.TicketState == TicketState.Derivado)
                 {
                     ticketStateName = "Derivado";
+                }
+
+                if (newTicketDet.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+
+                if (newTicketDet.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+
+                if (newTicketDet.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (newTicketDet.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
                 }
 
                 TicketDetViewModel ticketDetViewModel = new TicketDetViewModel
@@ -414,6 +505,26 @@ namespace TicketsApi.Web.Controllers.Api
                 ticketStateName = "Derivado";
             }
 
+            if (ticketCab.TicketState == TicketState.Cerrado)
+            {
+                ticketStateName = "Cerrado";
+            }
+
+            if (ticketCab.TicketState == TicketState.Autorizar)
+            {
+                ticketStateName = "Autorizar";
+            }
+
+            if (ticketCab.TicketState == TicketState.Autorizado)
+            {
+                ticketStateName = "Autorizado";
+            }
+
+            if (ticketCab.TicketState == TicketState.Rechazado)
+            {
+                ticketStateName = "Rechazado";
+            }
+
             TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
             {
                 Id = ticketCab.Id,
@@ -433,6 +544,12 @@ namespace TicketsApi.Web.Controllers.Api
                 UserAsignName = ticketCab.UserAsignName,
                 InProgressDate = ticketCab.InProgressDate,
                 FinishDate = ticketCab.FinishDate,
+
+                AuthorizingDate = ticketCab.AuthorizingDate,
+                UserAuthorize = ticketCab.UserAuthorize,
+                UserAuthorizeName = ticketCab.UserAuthorizeName,
+                LastDate = ticketCab.LastDate,
+
                 TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                 {
                     Id = ticketCab.Id,
@@ -494,6 +611,24 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
                     Id = ticketCab.Id,
@@ -513,6 +648,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -574,6 +715,24 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
                     Id = ticketCab.Id,
@@ -593,6 +752,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -655,6 +820,24 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
                     Id = ticketCab.Id,
@@ -674,6 +857,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -758,6 +947,24 @@ namespace TicketsApi.Web.Controllers.Api
                     ticketStateName = "Derivado";
                 }
 
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
+
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
                     Id = ticketCab.Id,
@@ -777,6 +984,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -839,6 +1052,23 @@ namespace TicketsApi.Web.Controllers.Api
                 {
                     ticketStateName = "Derivado";
                 }
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
 
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
@@ -859,6 +1089,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
@@ -921,6 +1157,23 @@ namespace TicketsApi.Web.Controllers.Api
                 {
                     ticketStateName = "Derivado";
                 }
+                if (ticketCab.TicketState == TicketState.Cerrado)
+                {
+                    ticketStateName = "Cerrado";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizar)
+                {
+                    ticketStateName = "Autorizar";
+                }
+                if (ticketCab.TicketState == TicketState.Autorizado)
+                {
+                    ticketStateName = "Autorizado";
+                }
+
+                if (ticketCab.TicketState == TicketState.Rechazado)
+                {
+                    ticketStateName = "Rechazado";
+                }
 
                 TicketCabViewModel ticketCabViewModel = new TicketCabViewModel
                 {
@@ -941,6 +1194,12 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAsignName = ticketCab.UserAsignName,
                     InProgressDate = ticketCab.InProgressDate,
                     FinishDate = ticketCab.FinishDate,
+
+                    AuthorizingDate = ticketCab.AuthorizingDate,
+                    UserAuthorize = ticketCab.UserAuthorize,
+                    UserAuthorizeName = ticketCab.UserAuthorizeName,
+                    LastDate = ticketCab.LastDate,
+
                     TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,

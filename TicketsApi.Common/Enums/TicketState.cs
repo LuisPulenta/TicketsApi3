@@ -6,7 +6,11 @@
         Devuelto,
         Asignado,
         Encurso,
-        Resuelto,   
-        Derivado
+        Resuelto,
+        Derivado,
+        Cerrado,
+        Autorizar,
+        Autorizado,
+        Rechazado,
     }
 }

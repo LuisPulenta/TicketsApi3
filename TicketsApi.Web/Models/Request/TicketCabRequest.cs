@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace TicketsApi.Web.Models.Request
 {
     public class TicketCabRequest
@@ -16,5 +15,8 @@ namespace TicketsApi.Web.Models.Request
         public string CategoryName { get; set; }
         public int SubcategoryId { get; set; }
         public string SubcategoryName { get; set; }
+        public DateTime? AuthorizingDate { get; set; }
+        public string UserAuthorize { get; set; }
+        public string UserAuthorizeName { get; set; }
     }
 }
