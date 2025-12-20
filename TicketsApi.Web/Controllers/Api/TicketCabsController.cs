@@ -572,7 +572,7 @@ namespace TicketsApi.Web.Controllers.Api
         {
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.UserId == id && x.TicketState != TicketState.Resuelto)
+                .Where(x => x.UserId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Cerrado)
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
@@ -677,7 +677,7 @@ namespace TicketsApi.Web.Controllers.Api
         {
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.CompanyId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Devuelto)
+                .Where(x => x.CompanyId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Cerrado && x.TicketState != TicketState.Devuelto)
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
