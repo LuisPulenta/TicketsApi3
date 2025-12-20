@@ -890,7 +890,7 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.TicketState == TicketState.Resuelto && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
+                .Where(x => (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
                 .OrderBy(x => x.CompanyName)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
