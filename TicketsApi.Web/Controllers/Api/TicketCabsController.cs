@@ -572,7 +572,7 @@ namespace TicketsApi.Web.Controllers.Api
         {
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.UserId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Cerrado)
+                .Where(x => x.UserId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Cerrado && x.TicketState != TicketState.Rechazado)
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
@@ -677,7 +677,14 @@ namespace TicketsApi.Web.Controllers.Api
         {
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.CompanyId == id && x.TicketState != TicketState.Resuelto && x.TicketState != TicketState.Cerrado && x.TicketState != TicketState.Devuelto)
+                .Where(x =>
+                x.CompanyId == id &&
+                x.TicketState != TicketState.Resuelto &&
+                x.TicketState != TicketState.Cerrado &&
+                x.TicketState != TicketState.Devuelto &&
+                x.TicketState != TicketState.Autorizar &&
+                x.TicketState != TicketState.Autorizado &&
+                x.TicketState != TicketState.Rechazado)
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
@@ -890,7 +897,7 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
+                .Where(x => (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado || x.TicketState == TicketState.Rechazado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
                 .OrderBy(x => x.CompanyName)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -899,7 +906,7 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.CompanyId == request.CompanyId && (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
+                .Where(x => x.CompanyId == request.CompanyId && (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado || x.TicketState == TicketState.Rechazado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
                 .OrderBy(x => x.CompanyName)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -908,7 +915,7 @@ namespace TicketsApi.Web.Controllers.Api
             {
                 ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
-                .Where(x => x.UserId == request.UserId && (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
+                .Where(x => x.UserId == request.UserId && (x.TicketState == TicketState.Resuelto || x.TicketState == TicketState.Cerrado || x.TicketState == TicketState.Rechazado) && x.CreateDate >= request.Desde && x.CreateDate <= request.Hasta.AddDays(1))
                 .OrderBy(x => x.CompanyName)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -1015,7 +1022,7 @@ namespace TicketsApi.Web.Controllers.Api
 
             ticketCabs = await _context.TicketCabs
             .Include(x => x.TicketDets)
-            .Where(x => x.UserAsign == id && x.TicketState == TicketState.Derivado)
+            .Where(x => x.UserAsign == id && (x.TicketState == TicketState.Derivado || x.TicketState == TicketState.Autorizado))
             .OrderBy(x => x.AsignDate)
             .ToListAsync();
 
@@ -1225,7 +1232,7 @@ namespace TicketsApi.Web.Controllers.Api
 
             ticketCabs = await _context.TicketCabs
             .Include(x => x.TicketDets)
-            .Where(x => x.CompanyId == id && (x.TicketState == TicketState.Devuelto || x.TicketState == TicketState.Asignado || x.TicketState == TicketState.Encurso || x.TicketState == TicketState.Derivado))
+            .Where(x => x.CompanyId == id && (x.TicketState == TicketState.Devuelto || x.TicketState == TicketState.Asignado || x.TicketState == TicketState.Encurso || x.TicketState == TicketState.Derivado || x.TicketState == TicketState.Autorizar))
             .OrderBy(x => x.Id)
             .ToListAsync();
 
