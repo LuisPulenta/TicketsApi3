@@ -8,6 +8,9 @@ namespace TicketsApi.Web.Data.Entities
     {
         [Key]
         public int Id { get; set; }
+
+        public int TicketCabId { get; set; }
+
         public TicketCab TicketCab { get; set; }
 
         [Display(Name = "Descripción")]
@@ -32,6 +35,7 @@ namespace TicketsApi.Web.Data.Entities
 
         [Display(Name = "Imagen")]
         public string Image { get; set; }
+
         public string ImageFullPath => string.IsNullOrEmpty(Image)
         ? $"https://gaos2.keypress.com.ar/TicketsApi/images/tickets/noimage.png"
         : $"https://gaos2.keypress.com.ar/TicketsApi{Image.Substring(1)}";
