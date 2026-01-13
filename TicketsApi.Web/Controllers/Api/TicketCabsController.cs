@@ -119,15 +119,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorize = ticketCab.UserAuthorize,
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -374,6 +375,7 @@ namespace TicketsApi.Web.Controllers.Api
             TicketDet newTicketDet = new TicketDet
             {
                 Id = 0,
+                TicketCabId = ticketCab.Id,
                 TicketCab = ticketCab,
                 Description = ticketDetRequest.Description,
                 StateDate = ahora,
@@ -455,6 +457,7 @@ namespace TicketsApi.Web.Controllers.Api
                 TicketDetViewModel ticketDetViewModel = new TicketDetViewModel
                 {
                     Id = newTicketDet.Id,
+                    TicketCabId = newTicketDet.TicketCabId,
                     Description = newTicketDet.Description,
                     TicketState = ticketStateName,
                     StateDate = ahora,
@@ -577,7 +580,8 @@ namespace TicketsApi.Web.Controllers.Api
 
                 TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                 {
-                    Id = ticketCab.Id,
+                    Id = ticketDet.Id,
+                    TicketCabId = ticketDet.TicketCabId,
                     Description = ticketDet.Description,
                     TicketState = ticketDet.TicketState.ToString(),
                     StateDate = ticketDet.StateDate,
@@ -679,15 +683,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -790,15 +795,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -895,15 +901,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -1022,15 +1029,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -1127,15 +1135,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -1232,15 +1241,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
                         Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
@@ -1337,15 +1347,16 @@ namespace TicketsApi.Web.Controllers.Api
                     UserAuthorizeName = ticketCab.UserAuthorizeName,
                     LastDate = ticketCab.LastDate,
 
-                    TicketDets = ticketCab.TicketDets?.Select(ticketCab => new TicketDetViewModel
+                    TicketDets = ticketCab.TicketDets?.Select(ticketDet => new TicketDetViewModel
                     {
-                        Id = ticketCab.Id,
-                        Description = ticketCab.Description,
+                        Id = ticketDet.Id,
+                        TicketCabId = ticketDet.TicketCabId,
+                        Description = ticketDet.Description,
                         TicketState = ticketStateName,
-                        StateDate = ticketCab.StateDate,
-                        StateUserId = ticketCab.StateUserId,
-                        StateUserName = ticketCab.StateUserName,
-                        Image = ticketCab.Image,
+                        StateDate = ticketDet.StateDate,
+                        StateUserId = ticketDet.StateUserId,
+                        StateUserName = ticketDet.StateUserName,
+                        Image = ticketDet.Image,
                     }).ToList(),
                 };
                 list.Add(ticketCabViewModel);
