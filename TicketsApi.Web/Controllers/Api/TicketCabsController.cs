@@ -288,6 +288,31 @@ namespace TicketsApi.Web.Controllers.Api
 
         //-----------------------------------------------------------------------------------
         [HttpPost]
+        [Route("PutTicketDet")]
+        public async Task<ActionResult<TicketCab>> PutTicketDet(TicketDet2ViewModel ticketDetRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TicketDet oldTicketDet = await _context.TicketDets.FirstOrDefaultAsync(o => o.Id == ticketDetRequest.Id);
+            oldTicketDet.Description = ticketDetRequest.Description;
+
+            _context.Update(oldTicketDet);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            return Ok(oldTicketDet);
+        }
+
+        //-----------------------------------------------------------------------------------
+        [HttpPost]
         [Route("PostTicketDet")]
         public async Task<ActionResult<TicketCab>> PostTicketDet(TicketDetRequest ticketDetRequest)
         {
