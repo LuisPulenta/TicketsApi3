@@ -708,13 +708,15 @@ namespace TicketsApi.Web.Controllers.Api
             List<TicketCab> ticketCabs = await _context.TicketCabs
                 .Include(x => x.TicketDets)
                 .Where(x =>
-                x.CompanyId == id &&
+                (x.CompanyId == id &&
                 x.TicketState != TicketState.Resuelto &&
                 x.TicketState != TicketState.Cerrado &&
                 x.TicketState != TicketState.Devuelto &&
                 x.TicketState != TicketState.Autorizar &&
                 x.TicketState != TicketState.Autorizado &&
-                x.TicketState != TicketState.Rechazado)
+                x.TicketState != TicketState.Rechazado) ||
+                (x.TicketState == TicketState.Autorizado && x.UserAsign == "")
+                )
               .OrderBy(x => x.CompanyName)
               .OrderBy(x => x.Id)
               .ToListAsync();
